@@ -34,6 +34,7 @@ executable factor-anamorphism
   build-depends:       base
                      , haskell-playground
                      , recursion-schemes
+                     , deriving-compat
   default-language:    Haskell2010
 
 test-suite haskell-playground-test

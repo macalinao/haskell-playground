@@ -1,16 +1,20 @@
+{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE DeriveFunctor #-}
 
-module FactorAnamorphism where
+module Main where
 
-import Data.Functor.Classes
+import Text.Show.Deriving
 import Data.Functor.Foldable
 import Data.List
 
 nextPrimeFactor :: Integer -> Maybe Integer
-nextPrimeFactor n = find (\x -> n `mod` x /= 0) [2..(floor $ sqrt $ fromIntegral n)]
+nextPrimeFactor 2 = Nothing
+nextPrimeFactor n = find (\x -> n `mod` x == 0) [2..(floor $ sqrt $ fromIntegral n)]
 
 data ExprF r = FactorF Integer | MultF r r deriving (Show, Functor)
 type Expr = Fix ExprF
+
+deriveShow1 ''ExprF
 
 factor :: Integer -> Expr
 factor = ana coAlg where
@@ -19,4 +23,4 @@ factor = ana coAlg where
     Nothing    -> FactorF fac
 
 main :: IO ()
-main = print $ factor 10
+main = print $ factor 159
